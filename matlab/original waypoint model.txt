@@ -1,0 +1,80 @@
+clear;
+clc;
+close all;
+hold on;
+%Dimensions of area to move around
+X = 1500;
+Y = 500;
+MINSPEED = 0;
+MAXSPEED = 40;
+PAUSETIME = 2;
+TIME = 90;
+N = 2; %Number of path changes
+AMOSTRAS = 2;%Number of paths
+nodes = zeros(N,6);
+nodes_speed = zeros(N,TIME);
+nodes_speed_mean = zeros (AMOSTRAS,TIME);
+
+count=1;
+
+for a=1:AMOSTRAS
+    for i=1:N
+        j=1;
+        x = rand*X;
+        y = rand*Y;
+        waypointX = rand*X;
+        waypointY = rand*Y;
+        speed = MINSPEED+(MAXSPEED - MINSPEED)*rand;
+        time = 1;
+        node = [x y speed waypointX waypointY time];
+        nodes(j,:) =node;
+        while time <= TIME
+            node = nodes(j,:);
+            x = node(1);
+            y = node(2);
+            speed = node(3);
+            waypointX = node(4);
+            waypointY = node(5);
+            dist = sqrt((x-waypointX)^2+(y-waypointY)^2);
+            new_waypointX = rand*X;
+            new_waypointY = rand*Y;
+            new_speed =  MINSPEED+(MAXSPEED - MINSPEED)*rand;
+            time = time + dist/speed + PAUSETIME;
+            node = [waypointX waypointY new_speed new_waypointX new_waypointY time];
+            j=j+1;
+            nodes(j,:) =node;
+            
+            values(a,count)=time;
+            count=count+1;
+            
+            xcorr(i)=waypointX;
+            ycorr(i)=waypointY;
+            b='--';%Denote style of plot
+            if i==1
+                plot([0 xcorr(i)],[0 ycorr(i)],b)
+                hold on
+            else plot([xcorr(i-1) xcorr(i)],[ycorr(i-1) ycorr(i)],b)
+                hold on
+            end
+        end
+        for k=1:j-1
+            node_ant = nodes(k,:);
+            speed = node_ant(3);
+            time_ant = node_ant(6);
+            node_next = nodes(k+1,:);
+            time_next = node_next(6);
+            if time_next >TIME
+                time_next = TIME;
+            end
+            times = ceil(time_ant):floor(time_next);
+            if ~isempty(times)
+                nodes_speed(i,times) = speed ;
+            end
+        end
+    end
+    nodes_speed_mean(a,:) = mean(nodes_speed);  
+    s='New path starts';
+    disp(s);
+end
+%plot (mean(nodes_speed_mean),'r');
+%grid on 
