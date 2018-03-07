@@ -8,7 +8,7 @@ MATLAB:
 The Matlab implementation was done to implement the handoff in a mmWave radio propagation model based on the work done by R.Health and T.Bai from the university of Austin, Texas in the paper titled 'Coverage and Rate Analysis for Millimeter-Wave Cellular Networks', IEEE TRANSACTIONS ON WIRELESS COMMUNICATIONS, VOL. 14, NO. 2, FEBRUARY 2015.
 
 NS3:
-The handoff was also implemented in a LTE propagation model using the NS3 LENA software. The modifed algorithm was compared to the native NS3 handoff called the strongest cell or A3 handoff procedure. 
+The handoff was also implemented in a LTE propagation model using the NS3 LENA software. The modifed algorithm was compared to the native NS3 handoff called the strongest cell or A3 handoff procedure. The 'scratch' folder contains the code required to implement the NS3 program. Copy and paste it inside the repos/ns-allinone3.26/ns-3.26 folder while replacing the older scratch folder.
 
 Results:
 A reduction was found in the number of handoffs performed. Additionally this leads to a decrease in the mean delay, mean packet loss and the mean sum of jitter. The improvement in the mmWave scenario in Matlab was found to be more as compared to the LTE scenario using NS3.
